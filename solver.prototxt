@@ -1,0 +1,17 @@
+net: "ResNet_50_train_val.prototxt"
+test_iter: 1000
+test_interval: 6000
+test_initialization: false
+display: 60
+base_lr: 0.1
+lr_policy: "multistep"
+stepvalue: 300000
+stepvalue: 500000
+gamma: 0.1
+max_iter: 600000
+momentum: 0.9
+weight_decay: 0.0001
+snapshot: 6000
+snapshot_prefix: "resnet"
+solver_mode: GPU
+device_id: [0]
