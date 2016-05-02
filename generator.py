@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from string import ascii_lowercase
+import collections
 
 def parse_args():
     parser = ArgumentParser(description=__doc__,
@@ -281,39 +282,62 @@ def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypas
         + in_place_relu(final_activation)
     return all_layers, final_activation
 
-def bottleneck_layer_set(prev_top, level, num_output, num_bottlenecks, bypass_params='default'):
+def bottleneck_layer_set(prev_top, level, num_output, num_bottlenecks, bypass_params='default', sublevel_naming='letters'):
     if bypass_params == 'default':
         bypass_params = (1, num_output*4, 2, 0)
     bypass_str, bypass_activation = normalized_conv_layers(bypass_params, '%da'%level, '1', prev_top, activation=False)
     network_str = ''
-    for sublevel in ascii_lowercase[:num_bottlenecks]:
-        if sublevel != 'a':
+    if sublevel_naming == 'letters' and num_bottlenecks <= 26:
+        sublevel_names = ascii_lowercase[:num_bottlenecks]
+    else:
+        sublevel_names = ['a'] + ['b' + str(i) for i in range(1, num_bottlenecks)]
+    for index, sublevel in enumerate(sublevel_names):
+        if index != 0:
             bypass_activation, bypass_str = None, ''
         layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str)
         network_str += layers
     return network_str, prev_top
 
-def train_val():
-    network_str = data_layer('ResNet-50')
+def resnet(variant='50'): # Currently supports 50, 101, 152
+    Level = collections.namedtuple('Level', ['level', 'num_bottlenecks', 'sublevel_naming'])
+    Level.__new__.__defaults__ = ('letters',)
+
+    network_str = data_layer('ResNet-' + variant)
     network_str += conv1_layers()
     prev_top = 'pool1'
-    levels = (
-        (2, 3),
-        (3, 4),
-        (4, 6),
-        (5, 3),
-    )
-    for level, num_bottlenecks in levels:
+    levels = {
+        '50': (
+            Level(2, 3),
+            Level(3, 4),
+            Level(4, 6),
+            Level(5, 3),
+        ),
+        '101': (
+            Level(2, 3),
+            Level(3, 4, 'numbered'),
+            Level(4, 23, 'numbered'),
+            Level(5, 3),
+        ),
+        '152': (
+            Level(2, 3),
+            Level(3, 8, 'numbered'),
+            Level(4, 36, 'numbered'),
+            Level(5, 3),
+        )
+    }
+    for level, num_bottlenecks, sublevel_naming in levels[variant]:
         if level == 2:
             bypass_params = (1, 256, 1, 0)
         else:
             bypass_params = 'default'
-        layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, bypass_params=bypass_params)
+        layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, 
+            bypass_params=bypass_params, sublevel_naming=sublevel_naming)
         network_str += layers
     network_str += ave_pool(7, 1, 'pool5', prev_top)
     network_str += fc_layer('fc1000', 'pool5', 'fc1000', num_output=1000, filler='gaussian')
     network_str += softmax_loss('fc1000')
     return network_str
+
 
 def solver(train_val_name):
         solver_str = '''net: "%s"
@@ -338,7 +362,7 @@ device_id: [0]'''%(train_val_name)
 def main():
     args = parse_args()
     solver_str = solver(args.train_val_file)
-    network_str = train_val()
+    network_str = resnet('152')
     fp = open(args.solver_file, 'w')
     fp.write(solver_str)
     fp.close()
