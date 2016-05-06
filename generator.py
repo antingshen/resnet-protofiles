@@ -39,7 +39,7 @@ layer {
         mean_value: 123
     }
     data_param {
-        source: "../imagenet/ilsvrc12_train_lmdb"
+        source: "../ilsvrc2012/ilsvrc2012_train"
         batch_size: 8
         backend: LMDB
     }
@@ -60,7 +60,7 @@ layer {
         mean_value: 123
     }
     data_param {
-        source: "../imagenet/ilsvrc12_val_lmdb"
+        source: "../ilsvrc2012/ilsvrc2012_val"
         batch_size: 5
         backend: LMDB
     }
@@ -356,13 +356,13 @@ weight_decay: 0.0001
 snapshot: 6000
 snapshot_prefix: "resnet"
 solver_mode: GPU
-device_id: [0]'''%(train_val_name)
+device_id: 0'''%(train_val_name)
         return solver_str
 
 def main():
     args = parse_args()
     solver_str = solver(args.train_val_file)
-    network_str = resnet('152')
+    network_str = resnet('50')
     fp = open(args.solver_file, 'w')
     fp.write(solver_str)
     fp.close()
