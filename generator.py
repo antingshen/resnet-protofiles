@@ -77,14 +77,6 @@ def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, fil
     top: "{top}"
     name: "{name}"
     type: "Convolution"
-    param {{
-        lr_mult: 1
-        decay_mult: 1
-    }}
-    param {{
-        lr_mult: 2
-        decay_mult: 0
-    }}
     convolution_param {{
         num_output: {num_output}
         kernel_size: {kernel_size}
@@ -106,12 +98,6 @@ def bn_layer(name, bottom, top):
     top: "{top}"
     name: "bn{name}"
     type: "BatchNorm"
-    param {{
-        lr_mult: 0
-    }}
-    param {{
-        lr_mult: 0
-    }}
     param {{
         lr_mult: 0
     }}
@@ -160,14 +146,6 @@ def fc_layer(layer_name, bottom, top, num_output=1000, filler="msra"):
     top: "%s"
     name: "%s"
     type: "InnerProduct"
-    param {
-        lr_mult: 1
-        decay_mult: 1
-    }
-    param {
-        lr_mult: 2
-        decay_mult: 0
-    }
     inner_product_param {
          num_output: %d
          weight_filler {
