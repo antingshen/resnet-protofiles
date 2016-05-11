@@ -634,7 +634,7 @@ layer {
         num_output: 128
         kernel_size: 1
         pad: 0
-        stride: 1
+        stride: 2
         weight_filler {
             type: "msra"
         }
@@ -1269,7 +1269,7 @@ layer {
         num_output: 256
         kernel_size: 1
         pad: 0
-        stride: 1
+        stride: 2
         weight_filler {
             type: "msra"
         }
@@ -2202,7 +2202,7 @@ layer {
         num_output: 512
         kernel_size: 1
         pad: 0
-        stride: 1
+        stride: 2
         weight_filler {
             type: "msra"
         }

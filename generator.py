@@ -245,11 +245,11 @@ def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True
         layers += in_place_relu(activation_name)
     return layers, activation_name
 
-def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypass_str=''):
+def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypass_str='', bypass_stride=1):
     if bypass_activation is None:
         bypass_activation = prev_top
     all_layers = bypass_str
-    layers, prev_top = normalized_conv_layers((1, num_output, 1, 0), level, '2a', prev_top)
+    layers, prev_top = normalized_conv_layers((1, num_output, bypass_stride, 0), level, '2a', prev_top)
     all_layers += layers
     layers, prev_top = normalized_conv_layers((3, num_output, 1, 1), level, '2b', prev_top)
     all_layers += layers
@@ -272,7 +272,9 @@ def bottleneck_layer_set(prev_top, level, num_output, num_bottlenecks, bypass_pa
     for index, sublevel in enumerate(sublevel_names):
         if index != 0:
             bypass_activation, bypass_str = None, ''
-        layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str)
+            layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str)
+        else:
+            layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str, bypass_params[2])
         network_str += layers
     return network_str, prev_top
 
