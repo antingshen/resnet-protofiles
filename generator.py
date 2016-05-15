@@ -4,23 +4,6 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from string import ascii_lowercase
 import collections
 
-def parse_args():
-    parser = ArgumentParser(description=__doc__,
-                                                    formatter_class=ArgumentDefaultsHelpFormatter)
-
-    parser.add_argument('train_val_file', help='Output train_val.prototxt file')
-    parser.add_argument('--solver_file', help='Output solver.prototxt file',
-                                            default='solver.prototxt')
-    # parser.add_argument('--layer_number', nargs='*',
-    #                                       help=('Layer number for each layer stage.'),
-    #                                       default=[3, 8, 5, 3])
-    # parser.add_argument('-t', '--type', type=int,
-    #                                       help=('0 for deploy.prototxt, 1 for train_val.prototxt.'),
-    #                                       default=1)
-
-    args = parser.parse_args()
-    return args
-
 def data_layer(name):
         data_layer_str = '''name: "%s"
 layer {
@@ -237,6 +220,8 @@ def conv1_layers():
     return layers
 
 def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True):
+    """conv -> batch_norm -> ReLU"""
+
     name = '%s_branch%s' % (level, branch)
     activation_name = 'res' + name
     layers = conv_layer(*(conv_params + (activation_name, prev_top))) \
@@ -246,6 +231,8 @@ def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True
     return layers, activation_name
 
 def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypass_str='', bypass_stride=1):
+    """1x1 -> 3x3 -> 1x1, with bypass and eltwise sum"""
+
     if bypass_activation is None:
         bypass_activation = prev_top
     all_layers = bypass_str
@@ -260,7 +247,15 @@ def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypas
         + in_place_relu(final_activation)
     return all_layers, final_activation
 
-def bottleneck_layer_set(prev_top, level, num_output, num_bottlenecks, bypass_params='default', sublevel_naming='letters'):
+def bottleneck_layer_set(
+        prev_top,               # Previous activation name
+        level,                  # Level number of this set, used for naming
+        num_output,             # "num_output" param for most layers of this set
+        num_bottlenecks,        # number of bottleneck sets
+        bypass_params='default',    # Conv params of the bypass convolution 
+        sublevel_naming='letters'): # Naming scheme of layer sets. MSRA sometimes uses letters sometimes numbers
+    """A set of bottleneck layers, with the first one having an convolution bypass to accomodate size"""
+
     if bypass_params == 'default':
         bypass_params = (1, num_output*4, 2, 0)
     bypass_str, bypass_activation = normalized_conv_layers(bypass_params, '%da'%level, '1', prev_top, activation=False)
@@ -319,36 +314,11 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     return network_str
 
 
-def solver(train_val_name):
-        solver_str = '''net: "%s"
-test_iter: 1000
-test_interval: 6000
-test_initialization: false
-display: 60
-base_lr: 0.1
-lr_policy: "multistep"
-stepvalue: 300000
-stepvalue: 500000
-gamma: 0.1
-max_iter: 600000
-momentum: 0.9
-weight_decay: 0.0001
-snapshot: 6000
-snapshot_prefix: "resnet"
-solver_mode: GPU
-device_id: 0'''%(train_val_name)
-        return solver_str
-
 def main():
-    args = parse_args()
-    solver_str = solver(args.train_val_file)
     network_str = resnet('50')
-    fp = open(args.solver_file, 'w')
-    fp.write(solver_str)
-    fp.close()
-    fp = open(args.train_val_file, 'w')
-    fp.write(network_str)
-    fp.close()
+    with open('ResNet_50_train_val.prototxt', 'w') as fp:
+        fp.write(network_str)
+
 
 if __name__ == '__main__':
     main()
