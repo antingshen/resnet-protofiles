@@ -44,7 +44,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_val"
-        batch_size: 5
+        batch_size: 1
         backend: LMDB
     }
 }
@@ -147,8 +147,7 @@ def fc_layer(layer_name, bottom, top, num_output=1000):
     inner_product_param {
          num_output: %d
          weight_filler {
-             type: "gaussian"
-             std: 0.03
+             type: "xavier"
          }
          bias_filler {
              type: "constant"
