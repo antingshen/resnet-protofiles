@@ -75,7 +75,7 @@ def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, fil
 '''.format(**locals())
     return conv_layer_str
 
-def bn_layer(name, bottom, top):
+def bn_layer(name, bottom, top, filler='msra'):
     bn_layer_str = '''layer {{
     bottom: "{top}"
     top: "{top}"
@@ -136,6 +136,14 @@ def fc_layer(layer_name, bottom, top, num_output=1000, filler="msra"):
     top: "%s"
     name: "%s"
     type: "InnerProduct"
+    param {
+        lr_mult: 1
+        decay_mult: 1
+    }
+    param {
+        lr_mult: 2
+        decay_mult: 1
+    }
     inner_product_param {
          num_output: %d
          weight_filler {
