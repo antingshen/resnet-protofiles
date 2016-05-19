@@ -44,7 +44,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_val"
-        batch_size: 8
+        batch_size: 5
         backend: LMDB
     }
 }
