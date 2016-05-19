@@ -50,7 +50,7 @@ layer {
     convolution_param {
         num_output: 64
         kernel_size: 7
-        pad: 0
+        pad: 3
         stride: 2
         weight_filler {
             type: "msra"
@@ -81,6 +81,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "conv1"
     top: "conv1"
@@ -94,9 +95,9 @@ layer {
     name: "pool1"
     type: "Pooling"
     pooling_param {
-        pool: MAX
         kernel_size: 3
         stride: 2
+        pool: MAX
     }
 }
 
@@ -139,6 +140,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "pool1"
     top: "res2a_branch2a"
@@ -178,6 +180,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2a_branch2a"
     top: "res2a_branch2a"
@@ -224,6 +227,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2a_branch2b"
     top: "res2a_branch2b"
@@ -270,6 +274,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2a_branch1"
     bottom: "res2a_branch2c"
@@ -327,6 +332,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2b_branch2a"
     top: "res2b_branch2a"
@@ -373,6 +379,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2b_branch2b"
     top: "res2b_branch2b"
@@ -419,6 +426,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2a"
     bottom: "res2b_branch2c"
@@ -476,6 +484,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2c_branch2a"
     top: "res2c_branch2a"
@@ -522,6 +531,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2c_branch2b"
     top: "res2c_branch2b"
@@ -568,6 +578,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2b"
     bottom: "res2c_branch2c"
@@ -625,6 +636,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res2c"
     top: "res3a_branch2a"
@@ -664,6 +676,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3a_branch2a"
     top: "res3a_branch2a"
@@ -710,6 +723,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3a_branch2b"
     top: "res3a_branch2b"
@@ -756,6 +770,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3a_branch1"
     bottom: "res3a_branch2c"
@@ -813,6 +828,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b1_branch2a"
     top: "res3b1_branch2a"
@@ -859,6 +875,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b1_branch2b"
     top: "res3b1_branch2b"
@@ -905,6 +922,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3a"
     bottom: "res3b1_branch2c"
@@ -962,6 +980,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b2_branch2a"
     top: "res3b2_branch2a"
@@ -1008,6 +1027,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b2_branch2b"
     top: "res3b2_branch2b"
@@ -1054,6 +1074,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b1"
     bottom: "res3b2_branch2c"
@@ -1111,6 +1132,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b3_branch2a"
     top: "res3b3_branch2a"
@@ -1157,6 +1179,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b3_branch2b"
     top: "res3b3_branch2b"
@@ -1203,6 +1226,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b2"
     bottom: "res3b3_branch2c"
@@ -1260,6 +1284,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b4_branch2a"
     top: "res3b4_branch2a"
@@ -1306,6 +1331,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b4_branch2b"
     top: "res3b4_branch2b"
@@ -1352,6 +1378,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b3"
     bottom: "res3b4_branch2c"
@@ -1409,6 +1436,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b5_branch2a"
     top: "res3b5_branch2a"
@@ -1455,6 +1483,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b5_branch2b"
     top: "res3b5_branch2b"
@@ -1501,6 +1530,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b4"
     bottom: "res3b5_branch2c"
@@ -1558,6 +1588,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b6_branch2a"
     top: "res3b6_branch2a"
@@ -1604,6 +1635,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b6_branch2b"
     top: "res3b6_branch2b"
@@ -1650,6 +1682,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b5"
     bottom: "res3b6_branch2c"
@@ -1707,6 +1740,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b7_branch2a"
     top: "res3b7_branch2a"
@@ -1753,6 +1787,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b7_branch2b"
     top: "res3b7_branch2b"
@@ -1799,6 +1834,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b6"
     bottom: "res3b7_branch2c"
@@ -1856,6 +1892,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res3b7"
     top: "res4a_branch2a"
@@ -1895,6 +1932,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4a_branch2a"
     top: "res4a_branch2a"
@@ -1941,6 +1979,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4a_branch2b"
     top: "res4a_branch2b"
@@ -1987,6 +2026,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4a_branch1"
     bottom: "res4a_branch2c"
@@ -2044,6 +2084,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b1_branch2a"
     top: "res4b1_branch2a"
@@ -2090,6 +2131,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b1_branch2b"
     top: "res4b1_branch2b"
@@ -2136,6 +2178,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4a"
     bottom: "res4b1_branch2c"
@@ -2193,6 +2236,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b2_branch2a"
     top: "res4b2_branch2a"
@@ -2239,6 +2283,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b2_branch2b"
     top: "res4b2_branch2b"
@@ -2285,6 +2330,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b1"
     bottom: "res4b2_branch2c"
@@ -2342,6 +2388,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b3_branch2a"
     top: "res4b3_branch2a"
@@ -2388,6 +2435,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b3_branch2b"
     top: "res4b3_branch2b"
@@ -2434,6 +2482,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b2"
     bottom: "res4b3_branch2c"
@@ -2491,6 +2540,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b4_branch2a"
     top: "res4b4_branch2a"
@@ -2537,6 +2587,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b4_branch2b"
     top: "res4b4_branch2b"
@@ -2583,6 +2634,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b3"
     bottom: "res4b4_branch2c"
@@ -2640,6 +2692,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b5_branch2a"
     top: "res4b5_branch2a"
@@ -2686,6 +2739,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b5_branch2b"
     top: "res4b5_branch2b"
@@ -2732,6 +2786,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b4"
     bottom: "res4b5_branch2c"
@@ -2789,6 +2844,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b6_branch2a"
     top: "res4b6_branch2a"
@@ -2835,6 +2891,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b6_branch2b"
     top: "res4b6_branch2b"
@@ -2881,6 +2938,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b5"
     bottom: "res4b6_branch2c"
@@ -2938,6 +2996,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b7_branch2a"
     top: "res4b7_branch2a"
@@ -2984,6 +3043,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b7_branch2b"
     top: "res4b7_branch2b"
@@ -3030,6 +3090,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b6"
     bottom: "res4b7_branch2c"
@@ -3087,6 +3148,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b8_branch2a"
     top: "res4b8_branch2a"
@@ -3133,6 +3195,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b8_branch2b"
     top: "res4b8_branch2b"
@@ -3179,6 +3242,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b7"
     bottom: "res4b8_branch2c"
@@ -3236,6 +3300,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b9_branch2a"
     top: "res4b9_branch2a"
@@ -3282,6 +3347,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b9_branch2b"
     top: "res4b9_branch2b"
@@ -3328,6 +3394,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b8"
     bottom: "res4b9_branch2c"
@@ -3385,6 +3452,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b10_branch2a"
     top: "res4b10_branch2a"
@@ -3431,6 +3499,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b10_branch2b"
     top: "res4b10_branch2b"
@@ -3477,6 +3546,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b9"
     bottom: "res4b10_branch2c"
@@ -3534,6 +3604,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b11_branch2a"
     top: "res4b11_branch2a"
@@ -3580,6 +3651,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b11_branch2b"
     top: "res4b11_branch2b"
@@ -3626,6 +3698,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b10"
     bottom: "res4b11_branch2c"
@@ -3683,6 +3756,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b12_branch2a"
     top: "res4b12_branch2a"
@@ -3729,6 +3803,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b12_branch2b"
     top: "res4b12_branch2b"
@@ -3775,6 +3850,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b11"
     bottom: "res4b12_branch2c"
@@ -3832,6 +3908,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b13_branch2a"
     top: "res4b13_branch2a"
@@ -3878,6 +3955,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b13_branch2b"
     top: "res4b13_branch2b"
@@ -3924,6 +4002,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b12"
     bottom: "res4b13_branch2c"
@@ -3981,6 +4060,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b14_branch2a"
     top: "res4b14_branch2a"
@@ -4027,6 +4107,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b14_branch2b"
     top: "res4b14_branch2b"
@@ -4073,6 +4154,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b13"
     bottom: "res4b14_branch2c"
@@ -4130,6 +4212,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b15_branch2a"
     top: "res4b15_branch2a"
@@ -4176,6 +4259,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b15_branch2b"
     top: "res4b15_branch2b"
@@ -4222,6 +4306,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b14"
     bottom: "res4b15_branch2c"
@@ -4279,6 +4364,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b16_branch2a"
     top: "res4b16_branch2a"
@@ -4325,6 +4411,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b16_branch2b"
     top: "res4b16_branch2b"
@@ -4371,6 +4458,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b15"
     bottom: "res4b16_branch2c"
@@ -4428,6 +4516,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b17_branch2a"
     top: "res4b17_branch2a"
@@ -4474,6 +4563,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b17_branch2b"
     top: "res4b17_branch2b"
@@ -4520,6 +4610,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b16"
     bottom: "res4b17_branch2c"
@@ -4577,6 +4668,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b18_branch2a"
     top: "res4b18_branch2a"
@@ -4623,6 +4715,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b18_branch2b"
     top: "res4b18_branch2b"
@@ -4669,6 +4762,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b17"
     bottom: "res4b18_branch2c"
@@ -4726,6 +4820,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b19_branch2a"
     top: "res4b19_branch2a"
@@ -4772,6 +4867,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b19_branch2b"
     top: "res4b19_branch2b"
@@ -4818,6 +4914,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b18"
     bottom: "res4b19_branch2c"
@@ -4875,6 +4972,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b20_branch2a"
     top: "res4b20_branch2a"
@@ -4921,6 +5019,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b20_branch2b"
     top: "res4b20_branch2b"
@@ -4967,6 +5066,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b19"
     bottom: "res4b20_branch2c"
@@ -5024,6 +5124,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b21_branch2a"
     top: "res4b21_branch2a"
@@ -5070,6 +5171,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b21_branch2b"
     top: "res4b21_branch2b"
@@ -5116,6 +5218,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b20"
     bottom: "res4b21_branch2c"
@@ -5173,6 +5276,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b22_branch2a"
     top: "res4b22_branch2a"
@@ -5219,6 +5323,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b22_branch2b"
     top: "res4b22_branch2b"
@@ -5265,6 +5370,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b21"
     bottom: "res4b22_branch2c"
@@ -5322,6 +5428,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b23_branch2a"
     top: "res4b23_branch2a"
@@ -5368,6 +5475,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b23_branch2b"
     top: "res4b23_branch2b"
@@ -5414,6 +5522,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b22"
     bottom: "res4b23_branch2c"
@@ -5471,6 +5580,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b24_branch2a"
     top: "res4b24_branch2a"
@@ -5517,6 +5627,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b24_branch2b"
     top: "res4b24_branch2b"
@@ -5563,6 +5674,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b23"
     bottom: "res4b24_branch2c"
@@ -5620,6 +5732,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b25_branch2a"
     top: "res4b25_branch2a"
@@ -5666,6 +5779,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b25_branch2b"
     top: "res4b25_branch2b"
@@ -5712,6 +5826,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b24"
     bottom: "res4b25_branch2c"
@@ -5769,6 +5884,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b26_branch2a"
     top: "res4b26_branch2a"
@@ -5815,6 +5931,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b26_branch2b"
     top: "res4b26_branch2b"
@@ -5861,6 +5978,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b25"
     bottom: "res4b26_branch2c"
@@ -5918,6 +6036,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b27_branch2a"
     top: "res4b27_branch2a"
@@ -5964,6 +6083,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b27_branch2b"
     top: "res4b27_branch2b"
@@ -6010,6 +6130,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b26"
     bottom: "res4b27_branch2c"
@@ -6067,6 +6188,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b28_branch2a"
     top: "res4b28_branch2a"
@@ -6113,6 +6235,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b28_branch2b"
     top: "res4b28_branch2b"
@@ -6159,6 +6282,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b27"
     bottom: "res4b28_branch2c"
@@ -6216,6 +6340,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b29_branch2a"
     top: "res4b29_branch2a"
@@ -6262,6 +6387,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b29_branch2b"
     top: "res4b29_branch2b"
@@ -6308,6 +6434,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b28"
     bottom: "res4b29_branch2c"
@@ -6365,6 +6492,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b30_branch2a"
     top: "res4b30_branch2a"
@@ -6411,6 +6539,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b30_branch2b"
     top: "res4b30_branch2b"
@@ -6457,6 +6586,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b29"
     bottom: "res4b30_branch2c"
@@ -6514,6 +6644,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b31_branch2a"
     top: "res4b31_branch2a"
@@ -6560,6 +6691,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b31_branch2b"
     top: "res4b31_branch2b"
@@ -6606,6 +6738,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b30"
     bottom: "res4b31_branch2c"
@@ -6663,6 +6796,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b32_branch2a"
     top: "res4b32_branch2a"
@@ -6709,6 +6843,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b32_branch2b"
     top: "res4b32_branch2b"
@@ -6755,6 +6890,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b31"
     bottom: "res4b32_branch2c"
@@ -6812,6 +6948,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b33_branch2a"
     top: "res4b33_branch2a"
@@ -6858,6 +6995,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b33_branch2b"
     top: "res4b33_branch2b"
@@ -6904,6 +7042,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b32"
     bottom: "res4b33_branch2c"
@@ -6961,6 +7100,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b34_branch2a"
     top: "res4b34_branch2a"
@@ -7007,6 +7147,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b34_branch2b"
     top: "res4b34_branch2b"
@@ -7053,6 +7194,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b33"
     bottom: "res4b34_branch2c"
@@ -7110,6 +7252,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b35_branch2a"
     top: "res4b35_branch2a"
@@ -7156,6 +7299,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b35_branch2b"
     top: "res4b35_branch2b"
@@ -7202,6 +7346,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b34"
     bottom: "res4b35_branch2c"
@@ -7259,6 +7404,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res4b35"
     top: "res5a_branch2a"
@@ -7298,6 +7444,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5a_branch2a"
     top: "res5a_branch2a"
@@ -7344,6 +7491,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5a_branch2b"
     top: "res5a_branch2b"
@@ -7390,6 +7538,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5a_branch1"
     bottom: "res5a_branch2c"
@@ -7447,6 +7596,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5b_branch2a"
     top: "res5b_branch2a"
@@ -7493,6 +7643,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5b_branch2b"
     top: "res5b_branch2b"
@@ -7539,6 +7690,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5a"
     bottom: "res5b_branch2c"
@@ -7596,6 +7748,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5c_branch2a"
     top: "res5c_branch2a"
@@ -7642,6 +7795,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5c_branch2b"
     top: "res5c_branch2b"
@@ -7688,6 +7842,7 @@ layer {
         bias_term: true
     }
 }
+
 layer {
     bottom: "res5b"
     bottom: "res5c_branch2c"
@@ -7712,9 +7867,9 @@ layer {
     name: "pool5"
     type: "Pooling"
     pooling_param {
-        pool: AVE
         kernel_size: 7
         stride: 1
+        pool: AVE
     }
 }
 

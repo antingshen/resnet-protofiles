@@ -98,6 +98,7 @@ layer {{
         bias_term: true
     }}
 }}
+
 '''.format(**locals())
     return bn_layer_str
 
@@ -111,13 +112,13 @@ def pooling_layer(kernel_size, stride, pool_type, layer_name, bottom, top):
     name: "%s"
     type: "Pooling"
     pooling_param {
-        pool: %s
         kernel_size: %d
         stride: %d
+        pool: %s
     }
 }
 
-'''%(bottom, top, layer_name, pool_type, kernel_size, stride)
+'''%(bottom, top, layer_name, kernel_size, stride, pool_type)
     return pool_layer_str
 
 def ave_pool(kernel_size, stride, layer_name, bottom):
@@ -213,7 +214,7 @@ layer {
 
 
 def conv1_layers():
-    layers = conv_layer(7, 64, 2, 0, 'conv1', 'data') \
+    layers = conv_layer(7, 64, 2, 3, 'conv1', 'data') \
         + in_place_bn('_conv1', 'conv1') \
         + in_place_relu('conv1') \
         + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1', 'pool1')
