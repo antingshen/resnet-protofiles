@@ -23,7 +23,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_train"
-        batch_size: 256
+        batch_size: 16
         backend: LMDB
     }
 }
