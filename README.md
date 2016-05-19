@@ -1,0 +1,1 @@
+Current config for 8 GPUs with 32 mini-batch size each.
