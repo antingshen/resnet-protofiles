@@ -84,6 +84,12 @@ def bn_layer(name, bottom, top):
     param {{
         lr_mult: 0
     }}
+    param {{
+        lr_mult: 0
+    }}
+    param {{
+        lr_mult: 0
+    }}
     batch_norm_param {{
         use_global_stats: true
     }}
