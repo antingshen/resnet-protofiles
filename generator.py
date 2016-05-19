@@ -23,7 +23,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_train"
-        batch_size: 8
+        batch_size: 256
         backend: LMDB
     }
 }
@@ -44,7 +44,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_val"
-        batch_size: 5
+        batch_size: 8
         backend: LMDB
     }
 }
@@ -315,9 +315,9 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    network_str = resnet('50')
-    with open('ResNet_50_train_val.prototxt', 'w') as fp:
-        fp.write(network_str)
+    for net in ('50', '101', '152'):
+        with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
+            fp.write(resnet(net))
 
 
 if __name__ == '__main__':
