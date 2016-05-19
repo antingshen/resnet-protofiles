@@ -130,7 +130,7 @@ def pooling_layer(kernel_size, stride, pool_type, layer_name, bottom, top):
 def ave_pool(kernel_size, stride, layer_name, bottom):
     return pooling_layer(kernel_size, stride, 'AVE', layer_name, bottom, layer_name)
 
-def fc_layer(layer_name, bottom, top, num_output=1000, filler="msra"):
+def fc_layer(layer_name, bottom, top, num_output=1000):
     fc_layer_str = '''layer {
     bottom: "%s"
     top: "%s"
@@ -147,8 +147,8 @@ def fc_layer(layer_name, bottom, top, num_output=1000, filler="msra"):
     inner_product_param {
          num_output: %d
          weight_filler {
-             type: "%s"
-             std: 0.001
+             type: "gaussian"
+             std: 0.03
          }
          bias_filler {
              type: "constant"
@@ -157,7 +157,7 @@ def fc_layer(layer_name, bottom, top, num_output=1000, filler="msra"):
     }
 }
 
-'''%(bottom, top, layer_name, num_output, filler)
+'''%(bottom, top, layer_name, num_output)
     return fc_layer_str
 
 def eltwise_layer(layer_name, bottom_1, bottom_2, top, op_type="SUM"):
@@ -324,7 +324,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
             bypass_params=bypass_params, sublevel_naming=sublevel_naming)
         network_str += layers
     network_str += ave_pool(7, 1, 'pool5', prev_top)
-    network_str += fc_layer('fc1000', 'pool5', 'fc1000', num_output=1000, filler='gaussian')
+    network_str += fc_layer('fc1000', 'pool5', 'fc1000', num_output=1000)
     network_str += softmax_loss('fc1000')
     return network_str
 

@@ -5930,7 +5930,7 @@ layer {
          num_output: 1000
          weight_filler {
              type: "gaussian"
-             std: 0.001
+             std: 0.03
          }
          bias_filler {
              type: "constant"
