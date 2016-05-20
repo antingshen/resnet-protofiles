@@ -69,15 +69,15 @@ def conv_layer(conv_params, name, bottom, top=None, filler="msra"):
         pad: {pad}
         stride: {stride}
         weight_filler {{
-            type: "{filler}"
+            type: "msra"
         }}
         '''\
         + ('''bias_term: false\n''' if USE_BN else 
      '''bias_filler {{
             type: "constant"
             value: 0
-        }}''')\
-+'''    }}
+        }}''') +'''
+    }}
 }}
 
 ''').format(**locals())
@@ -153,14 +153,14 @@ def fc_layer(layer_name, bottom, top, num_output=1000):
         decay_mult: 1
     }
     inner_product_param {
-         num_output: %d
-         weight_filler {
-             type: "xavier"
-         }
-         bias_filler {
-             type: "constant"
-             value: 0
-         }
+        num_output: %d
+        weight_filler {
+            type: "xavier"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }
     }
 }
 
