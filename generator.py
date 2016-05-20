@@ -295,6 +295,12 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     network_str += conv1_layers()
     prev_top = 'pool1'
     levels = {
+    	'test': (
+    		Level(2, 1),
+    		Level(3, 1),
+    		Level(4, 1),
+    		Level(5, 1),
+    	),
         '50': (
             Level(2, 3),
             Level(3, 4),
@@ -329,7 +335,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('50', '101', '152'):
+    for net in ('test', '50', '101', '152'):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
