@@ -293,7 +293,7 @@ def bottleneck_layer_set(
     """A set of bottleneck layers, with the first one having an convolution shortcut to accomodate size"""
 
     if shortcut_params == 'default':
-        shortcut_params = (1, num_output*4, 2, 0)
+        shortcut_params = (1, num_output*(4 if make_layers is bottleneck_layers else 1), 2, 0)
     shortcut_str, shortcut_activation = normalized_conv_layers(shortcut_params, '%da'%level, '1', prev_top, activation=False)
     network_str = ''
     if sublevel_naming == 'letters' and num_bottlenecks <= 26:
@@ -352,7 +352,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     for layer_desc in levels[variant]:
         level, num_bottlenecks, sublevel_naming = layer_desc
         if level == 2:
-            shortcut_params = (1, 256, 1, 0)
+            shortcut_params = (1, (256 if type(layer_desc) is Bottlenecks else 64), 1, 0)
         else:
             shortcut_params = 'default'
         layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, 
@@ -370,7 +370,7 @@ def main():
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
-USE_SHORTCUT = False
+USE_SHORTCUT = True
 USE_BN = True
 
 if __name__ == '__main__':
