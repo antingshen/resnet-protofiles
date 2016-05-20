@@ -52,7 +52,7 @@ layer {
 ''' % name
         return data_layer_str
 
-def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, filler="msra"):
+def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, filler="xavier"):
     if top is None:
         top = name
     conv_layer_str = '''layer {{
@@ -75,7 +75,7 @@ def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, fil
 '''.format(**locals())
     return conv_layer_str
 
-def bn_layer(name, bottom, top, filler='msra'):
+def bn_layer(name, bottom, top):
     bn_layer_str = '''layer {{
     bottom: "{top}"
     top: "{top}"
@@ -295,12 +295,12 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     network_str += conv1_layers()
     prev_top = 'pool1'
     levels = {
-    	'test': (
-    		Level(2, 1),
-    		Level(3, 1),
-    		Level(4, 1),
-    		Level(5, 1),
-    	),
+        'test': (
+            Level(2, 2),
+            Level(3, 2),
+            Level(4, 3),
+            Level(5, 2),
+        ),
         '50': (
             Level(2, 3),
             Level(3, 4),
@@ -335,7 +335,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('test', '50', '101', '152'):
+    for net in ('test', '50'):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
