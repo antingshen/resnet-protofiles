@@ -52,7 +52,7 @@ layer {
 ''' % name
         return data_layer_str
 
-def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, filler="xavier"):
+def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, filler="msra"):
     if top is None:
         top = name
     conv_layer_str = '''layer {{
@@ -296,10 +296,10 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     prev_top = 'pool1'
     levels = {
         'test': (
-            Level(2, 2),
-            Level(3, 2),
-            Level(4, 3),
-            Level(5, 2),
+            Level(2, 1),
+            Level(3, 1),
+            Level(4, 1),
+            Level(5, 1),
         ),
         '50': (
             Level(2, 3),

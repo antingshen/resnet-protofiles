@@ -1,4 +1,4 @@
-net: "ResNet_50_train_val.prototxt"
+net: "ResNet_test_train_val.prototxt"
 test_iter: 1000
 test_interval: 6000
 test_initialization: false
