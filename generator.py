@@ -52,7 +52,10 @@ layer {
 ''' % name
         return data_layer_str
 
-def conv_layer(kernel_size, num_output, stride, pad, name, bottom, top=None, filler="msra"):
+def conv_layer(conv_params, name, bottom, top=None, filler="msra"):
+    if len(conv_params) == 3:
+        conv_params = conv_params + ((conv_params[0] - 1) // 2,)
+    kernel_size, num_output, stride, pad = conv_params
     if top is None:
         top = name
     conv_layer_str = '''layer {{
@@ -227,7 +230,7 @@ layer {
 
 
 def conv1_layers():
-    layers = conv_layer(7, 64, 2, 3, 'conv1', 'data') \
+    layers = conv_layer((7, 64, 2), 'conv1', 'data') \
         + in_place_bn('_conv1', 'conv1') \
         + in_place_relu('conv1') \
         + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1', 'pool1')
@@ -238,41 +241,62 @@ def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True
 
     name = '%s_branch%s' % (level, branch)
     activation_name = 'res' + name
-    layers = conv_layer(*(conv_params + (activation_name, prev_top))) \
+    layers = conv_layer(conv_params, activation_name, prev_top) \
         + in_place_bn(name, activation_name)
     if activation:
         layers += in_place_relu(activation_name)
     return layers, activation_name
 
-def bottleneck_layers(prev_top, level, num_output, bypass_activation=None, bypass_str='', bypass_stride=1):
-    """1x1 -> 3x3 -> 1x1, with bypass and eltwise sum"""
+def bottleneck_layers(prev_top, level, num_output, shortcut_activation=None, shortcut_str='', shortcut_stride=1):
+    """1x1 -> 3x3 -> 1x1"""
 
-    if bypass_activation is None:
-        bypass_activation = prev_top
-    all_layers = bypass_str
-    layers, prev_top = normalized_conv_layers((1, num_output, bypass_stride, 0), level, '2a', prev_top)
+    if shortcut_activation is None:
+        shortcut_activation = prev_top
+    all_layers = shortcut_str if USE_SHORTCUT else ''
+    layers, prev_top = normalized_conv_layers((1, num_output, shortcut_stride), level, '2a', prev_top)
     all_layers += layers
-    layers, prev_top = normalized_conv_layers((3, num_output, 1, 1), level, '2b', prev_top)
+    layers, prev_top = normalized_conv_layers((3, num_output, 1), level, '2b', prev_top)
     all_layers += layers
-    layers, prev_top = normalized_conv_layers((1, num_output*4, 1, 0), level, '2c', prev_top, activation=False)
+    layers, prev_top = normalized_conv_layers((1, num_output*4, 1), level, '2c', prev_top, activation=(not USE_SHORTCUT))
     all_layers += layers
-    final_activation = 'res'+level
-    all_layers += eltwise_layer(final_activation, bypass_activation, prev_top, final_activation) \
-        + in_place_relu(final_activation)
-    return all_layers, final_activation
+    if USE_SHORTCUT:
+        final_activation = 'res' + level
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top, final_activation) \
+            + in_place_relu(final_activation)
+
+    return all_layers, prev_top if not USE_SHORTCUT else final_activation
+
+def stacked_layers(prev_top, level, num_output, shortcut_activation=None, shortcut_str='', shortcut_stride=1):
+    """3x3 -> 3x3"""
+
+    if shortcut_activation is None:
+        shortcut_activation = prev_top
+    all_layers = shortcut_str if USE_SHORTCUT else ''
+    layers, prev_top = normalized_conv_layers((3, num_output, shortcut_stride), level, '2a', prev_top)
+    all_layers += layers
+    layers, prev_top = normalized_conv_layers((3, num_output, 1), level, '2b', prev_top, activation=(not USE_SHORTCUT))
+    all_layers += layers
+    if USE_SHORTCUT:
+        final_activation = 'res' + level
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top, final_activation) \
+            + in_place_relu(final_activation)
+
+    return all_layers, prev_top if not USE_SHORTCUT else final_activation
 
 def bottleneck_layer_set(
         prev_top,               # Previous activation name
         level,                  # Level number of this set, used for naming
         num_output,             # "num_output" param for most layers of this set
         num_bottlenecks,        # number of bottleneck sets
-        bypass_params='default',    # Conv params of the bypass convolution 
-        sublevel_naming='letters'): # Naming scheme of layer sets. MSRA sometimes uses letters sometimes numbers
-    """A set of bottleneck layers, with the first one having an convolution bypass to accomodate size"""
+        shortcut_params='default',    # Conv params of the shortcut convolution 
+        sublevel_naming='letters', # Naming scheme of layer sets. MSRA sometimes uses letters sometimes numbers
+        make_layers=bottleneck_layers, # Function to make layers with
+    ):
+    """A set of bottleneck layers, with the first one having an convolution shortcut to accomodate size"""
 
-    if bypass_params == 'default':
-        bypass_params = (1, num_output*4, 2, 0)
-    bypass_str, bypass_activation = normalized_conv_layers(bypass_params, '%da'%level, '1', prev_top, activation=False)
+    if shortcut_params == 'default':
+        shortcut_params = (1, num_output*4, 2, 0)
+    shortcut_str, shortcut_activation = normalized_conv_layers(shortcut_params, '%da'%level, '1', prev_top, activation=False)
     network_str = ''
     if sublevel_naming == 'letters' and num_bottlenecks <= 26:
         sublevel_names = ascii_lowercase[:num_bottlenecks]
@@ -280,53 +304,62 @@ def bottleneck_layer_set(
         sublevel_names = ['a'] + ['b' + str(i) for i in range(1, num_bottlenecks)]
     for index, sublevel in enumerate(sublevel_names):
         if index != 0:
-            bypass_activation, bypass_str = None, ''
-            layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str)
+            shortcut_activation, shortcut_str = None, ''
+            layers, prev_top = make_layers(prev_top, '%d%s'%(level, sublevel), num_output, shortcut_activation, shortcut_str)
         else:
-            layers, prev_top = bottleneck_layers(prev_top, '%d%s'%(level, sublevel), num_output, bypass_activation, bypass_str, bypass_params[2])
+            layers, prev_top = make_layers(prev_top, '%d%s'%(level, sublevel), num_output, shortcut_activation, shortcut_str, shortcut_params[2])
         network_str += layers
     return network_str, prev_top
 
 def resnet(variant='50'): # Currently supports 50, 101, 152
-    Level = collections.namedtuple('Level', ['level', 'num_bottlenecks', 'sublevel_naming'])
-    Level.__new__.__defaults__ = ('letters',)
+    Bottlenecks = collections.namedtuple('Bottlenecks', ['level', 'num_bottlenecks', 'sublevel_naming'])
+    Bottlenecks.__new__.__defaults__ = ('letters',)
+    StackedSets = type('StackedSets', (Bottlenecks,), {}) # Makes copy of Bottlenecks class
 
     network_str = data_layer('ResNet-' + variant)
     network_str += conv1_layers()
     prev_top = 'pool1'
     levels = {
         'test': (
-            Level(2, 1),
-            Level(3, 1),
-            Level(4, 1),
-            Level(5, 1),
+            Bottlenecks(2, 1),
+            Bottlenecks(3, 1),
+            Bottlenecks(4, 1),
+            Bottlenecks(5, 1),
+        ),
+        '18': (
+            StackedSets(2, 2),
+            StackedSets(3, 2),
+            StackedSets(4, 2),
+            StackedSets(5, 2),
         ),
         '50': (
-            Level(2, 3),
-            Level(3, 4),
-            Level(4, 6),
-            Level(5, 3),
+            Bottlenecks(2, 3),
+            Bottlenecks(3, 4),
+            Bottlenecks(4, 6),
+            Bottlenecks(5, 3),
         ),
         '101': (
-            Level(2, 3),
-            Level(3, 4, 'numbered'),
-            Level(4, 23, 'numbered'),
-            Level(5, 3),
+            Bottlenecks(2, 3),
+            Bottlenecks(3, 4, 'numbered'),
+            Bottlenecks(4, 23, 'numbered'),
+            Bottlenecks(5, 3),
         ),
         '152': (
-            Level(2, 3),
-            Level(3, 8, 'numbered'),
-            Level(4, 36, 'numbered'),
-            Level(5, 3),
+            Bottlenecks(2, 3),
+            Bottlenecks(3, 8, 'numbered'),
+            Bottlenecks(4, 36, 'numbered'),
+            Bottlenecks(5, 3),
         )
     }
-    for level, num_bottlenecks, sublevel_naming in levels[variant]:
+    for layer_desc in levels[variant]:
+        level, num_bottlenecks, sublevel_naming = layer_desc
         if level == 2:
-            bypass_params = (1, 256, 1, 0)
+            shortcut_params = (1, 256, 1, 0)
         else:
-            bypass_params = 'default'
+            shortcut_params = 'default'
         layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, 
-            bypass_params=bypass_params, sublevel_naming=sublevel_naming)
+            shortcut_params=shortcut_params, sublevel_naming=sublevel_naming, 
+            make_layers=(bottleneck_layers if type(layer_desc) is Bottlenecks else stacked_layers))
         network_str += layers
     network_str += ave_pool(7, 1, 'pool5', prev_top)
     network_str += fc_layer('fc1000', 'pool5', 'fc1000', num_output=1000)
@@ -335,10 +368,11 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('test', '50'):
+    for net in ('18',):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
+USE_SHORTCUT = False
 
 if __name__ == '__main__':
     main()
