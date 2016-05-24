@@ -380,7 +380,7 @@ def main():
             fp.write(resnet(net))
 
 USE_SHORTCUT = False
-USE_BN = False
+USE_BN = True
 
 if __name__ == '__main__':
     main()
