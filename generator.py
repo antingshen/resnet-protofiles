@@ -70,8 +70,8 @@ def conv_layer(conv_params, name, bottom, top=None, filler="msra"):
         stride: {stride}
         weight_filler {{
             type: "{filler}"
-        }}
-        bias_term: false
+        }}'''+('''
+        bias_term: false''' if USE_BN else '')+'''
     }}
 }}
 
