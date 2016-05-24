@@ -227,8 +227,8 @@ layer {
 
 
 def conv1_layers():
-        # + in_place_bn('_conv1', 'conv1') \
     layers = conv_layer(7, 64, 2, 3, 'conv1', 'data') \
+        + in_place_bn('_conv1', 'conv1') \
         + in_place_relu('conv1') \
         + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1', 'pool1')
     return layers
@@ -239,7 +239,7 @@ def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True
     name = '%s_branch%s' % (level, branch)
     activation_name = 'res' + name
     layers = conv_layer(*(conv_params + (activation_name, prev_top))) \
-        # + in_place_bn(name, activation_name)
+        + in_place_bn(name, activation_name)
     if activation:
         layers += in_place_relu(activation_name)
     return layers, activation_name
