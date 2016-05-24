@@ -89,17 +89,8 @@ def bn_layer(name, bottom, top):
     top: "{top}"
     name: "bn{name}"
     type: "BatchNorm"
-    param {{
-        lr_mult: 0
-    }}
-    param {{
-        lr_mult: 0
-    }}
-    param {{
-        lr_mult: 0
-    }}
     batch_norm_param {{
-        use_global_stats: true
+        use_global_stats: false
     }}
 }}
 
