@@ -366,7 +366,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('18',):
+    for net in ('18', '50'):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
