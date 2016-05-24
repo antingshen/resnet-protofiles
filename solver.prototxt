@@ -1,8 +1,9 @@
 net: "ResNet_50_train_val.prototxt"
+iter_step: 2
 test_iter: 1000
-test_interval: 6000
+test_interval: 600
 test_initialization: false
-display: 60
+display: 30
 base_lr: 0.05
 lr_policy: "multistep"
 stepvalue: 150000

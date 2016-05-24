@@ -110,7 +110,9 @@ layer {{
 def in_place_bn(name, activation):
     return bn_layer(name, activation, activation)
 
-def pooling_layer(kernel_size, stride, pool_type, layer_name, bottom, top):
+def pooling_layer(kernel_size, stride, pool_type, layer_name, bottom, top=None):
+    if top is None:
+        top = layer_name
     pool_layer_str = '''layer {
     bottom: "%s"
     top: "%s"
@@ -230,7 +232,7 @@ def conv1_layers():
     if USE_BN:
         layers += in_place_bn('_conv1', 'conv1')
     layers += in_place_relu('conv1') \
-        + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1', 'pool1')
+        + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1')
     return layers
 
 def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True):
@@ -318,17 +320,17 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     network_str += conv1_layers()
     prev_top = 'pool1'
     levels = {
-        'test': (
-            Bottlenecks(2, 1),
-            Bottlenecks(3, 1),
-            Bottlenecks(4, 1),
-            Bottlenecks(5, 1),
-        ),
         '18': (
             StackedSets(2, 2),
             StackedSets(3, 2),
             StackedSets(4, 2),
             StackedSets(5, 2),
+        ),
+        '34': (
+        	StackedSets(2, 3),
+        	StackedSets(3, 4),
+        	StackedSets(4, 6),
+        	StackedSets(5, 3),
         ),
         '50': (
             Bottlenecks(2, 3),
@@ -366,7 +368,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('18', '50'):
+    for net in ('18', '34', '50', '101', '152'):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
