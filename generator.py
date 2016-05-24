@@ -58,7 +58,7 @@ def conv_layer(conv_params, name, bottom, top=None, filler="msra"):
     kernel_size, num_output, stride, pad = conv_params
     if top is None:
         top = name
-    conv_layer_str = '''layer {{
+    conv_layer_str = ('''layer {{
     bottom: "{bottom}"
     top: "{top}"
     name: "{name}"
@@ -70,12 +70,17 @@ def conv_layer(conv_params, name, bottom, top=None, filler="msra"):
         stride: {stride}
         weight_filler {{
             type: "{filler}"
-        }}'''+('''
-        bias_term: false''' if USE_BN else '')+'''
-    }}
+        }}
+        '''\
+        + ('''bias_term: false\n''' if USE_BN else 
+     '''bias_filler {{
+            type: "constant"
+            value: 0
+        }}''')\
++'''    }}
 }}
 
-'''.format(**locals())
+''').format(**locals())
     return conv_layer_str
 
 def bn_layer(name, bottom, top):

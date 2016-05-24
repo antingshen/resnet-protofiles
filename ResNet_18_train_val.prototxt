@@ -42,20 +42,23 @@ layer {
     }
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "data"
+    top: "conv1"
+    name: "conv1"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 64
+        kernel_size: 7
+        pad: 3
+        stride: 2
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -77,20 +80,23 @@ layer {
     }
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "pool1"
+    top: "res2a_branch2a"
+    name: "res2a_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 64
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -100,20 +106,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res2a_branch2a"
+    top: "res2a_branch2b"
+    name: "res2a_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 64
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -123,20 +132,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res2a_branch2b"
+    top: "res2b_branch2a"
+    name: "res2b_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 64
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -146,20 +158,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res2b_branch2a"
+    top: "res2b_branch2b"
+    name: "res2b_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 64
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -169,20 +184,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res2b_branch2b"
+    top: "res3a_branch2a"
+    name: "res3a_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 128
+        kernel_size: 3
+        pad: 1
+        stride: 2
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -192,20 +210,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res3a_branch2a"
+    top: "res3a_branch2b"
+    name: "res3a_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 128
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -215,20 +236,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res3a_branch2b"
+    top: "res3b_branch2a"
+    name: "res3b_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 128
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -238,20 +262,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res3b_branch2a"
+    top: "res3b_branch2b"
+    name: "res3b_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 128
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -261,20 +288,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res3b_branch2b"
+    top: "res4a_branch2a"
+    name: "res4a_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 256
+        kernel_size: 3
+        pad: 1
+        stride: 2
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -284,20 +314,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res4a_branch2a"
+    top: "res4a_branch2b"
+    name: "res4a_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 256
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -307,20 +340,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res4a_branch2b"
+    top: "res4b_branch2a"
+    name: "res4b_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 256
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -330,20 +366,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res4b_branch2a"
+    top: "res4b_branch2b"
+    name: "res4b_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 256
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -353,20 +392,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res4b_branch2b"
+    top: "res5a_branch2a"
+    name: "res5a_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 2
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -376,20 +418,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res5a_branch2a"
+    top: "res5a_branch2b"
+    name: "res5a_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -399,20 +444,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res5a_branch2b"
+    top: "res5b_branch2a"
+    name: "res5b_branch2a"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
@@ -422,20 +470,23 @@ layer {
     type: "ReLU"
 }
 
-layer {{
-    bottom: "{bottom}"
-    top: "{top}"
-    name: "{name}"
+layer {
+    bottom: "res5b_branch2a"
+    top: "res5b_branch2b"
+    name: "res5b_branch2b"
     type: "Convolution"
-    convolution_param {{
-        num_output: {num_output}
-        kernel_size: {kernel_size}
-        pad: {pad}
-        stride: {stride}
-        weight_filler {{
-            type: "{filler}"
-        }}
-    }
+    convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+        weight_filler {
+            type: "msra"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }    }
 }
 
 layer {
