@@ -296,7 +296,7 @@ def stacked_layers(prev_top, level, num_output, shortcut_activation=None, shortc
     return all_layers, prev_top if not USE_SHORTCUT else final_activation
 
 def fire_layers(prev_top, level, num_output, shortcut_activation=None, shortcut_str='', shortcut_stride=1):
-    SR = 0.5
+    SR = 0.25
     if shortcut_activation is None:
         shortcut_activation = prev_top
     all_layers = shortcut_str if USE_SHORTCUT else ''
@@ -305,11 +305,12 @@ def fire_layers(prev_top, level, num_output, shortcut_activation=None, shortcut_
     layers, left_out = normalized_conv_layers((1, num_output // 2, 1), level, 'expand1x1', prev_top)
     all_layers += layers
     layers, right_out = normalized_conv_layers((3, num_output // 2, 1), level, 'expand3x3', prev_top)
+    all_layers += layers
     layers, prev_top = concat_layer('concat' + level, left_out, right_out)
+    all_layers += layers
     if USE_SHORTCUT:
         final_activation = 'res' + level
-        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top) \
-            + in_place_relu(final_activation)
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top)
 
     return all_layers, prev_top if not USE_SHORTCUT else final_activation
 
@@ -391,7 +392,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     for layer_desc in levels[variant]:
         level, num_bottlenecks, sublevel_naming = layer_desc
         if level == 2:
-            shortcut_params = (1, (256 if type(layer_desc) is Bottlenecks else 64), 1, 0)
+            shortcut_params = (1, 64, 1, 0)
         else:
             shortcut_params = 'default'
         layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, 
@@ -410,7 +411,7 @@ def main():
             fp.write(resnet(net))
 
 USE_SHORTCUT = True
-USE_BN = True
+USE_BN = False
 
 if __name__ == '__main__':
     main()
