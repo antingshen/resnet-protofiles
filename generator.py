@@ -23,7 +23,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_train"
-        batch_size: 32
+        batch_size: 16
         backend: LMDB
     }
 }
@@ -44,7 +44,7 @@ layer {
     }
     data_param {
         source: "../ilsvrc2012/ilsvrc2012_val"
-        batch_size: 1
+        batch_size: 10
         backend: LMDB
     }
 }
@@ -160,7 +160,7 @@ def fc_layer(layer_name, bottom, top, num_output=1000):
 '''%(bottom, top, layer_name, num_output)
     return fc_layer_str
 
-def eltwise_layer(layer_name, bottom_1, bottom_2, top, op_type="SUM"):
+def eltwise_layer(layer_name, bottom_1, bottom_2, top=None, op_type="SUM"):
         eltwise_layer_str = '''layer {
     bottom: "%s"
     bottom: "%s"
@@ -172,8 +172,20 @@ def eltwise_layer(layer_name, bottom_1, bottom_2, top, op_type="SUM"):
     }
 }
 
-'''%(bottom_1, bottom_2, top, layer_name, op_type)
+'''%(bottom_1, bottom_2, top if top is not None else layer_name, layer_name, op_type)
         return eltwise_layer_str
+
+def concat_layer(layer_name, bottom_1, bottom_2, top=None):
+        concat_layer_str= '''layer {
+    type: "Concat"
+    bottom: "%s"
+    bottom: "%s"
+    top: "%s"
+    name: "%s"
+}
+
+'''%(bottom_1, bottom_2, top if top is not None else layer_name, layer_name)
+        return concat_layer_str, top if top is not None else layer_name
 
 def activation_layer(layer_name, bottom, top, act_type="ReLU"):
         act_layer_str = '''layer {
@@ -235,7 +247,7 @@ def conv1_layers():
         + pooling_layer(3, 2, 'MAX', 'pool1', 'conv1')
     return layers
 
-def normalized_conv_layers(conv_params, level, branch, prev_top, activation=True):
+def normalized_conv_layers(conv_params, level, branch, prev_top,  activation=True):
     """conv -> batch_norm -> ReLU"""
 
     name = '%s_branch%s' % (level, branch)
@@ -261,7 +273,7 @@ def bottleneck_layers(prev_top, level, num_output, shortcut_activation=None, sho
     all_layers += layers
     if USE_SHORTCUT:
         final_activation = 'res' + level
-        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top, final_activation) \
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top) \
             + in_place_relu(final_activation)
 
     return all_layers, prev_top if not USE_SHORTCUT else final_activation
@@ -278,7 +290,25 @@ def stacked_layers(prev_top, level, num_output, shortcut_activation=None, shortc
     all_layers += layers
     if USE_SHORTCUT:
         final_activation = 'res' + level
-        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top, final_activation) \
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top) \
+            + in_place_relu(final_activation)
+
+    return all_layers, prev_top if not USE_SHORTCUT else final_activation
+
+def fire_layers(prev_top, level, num_output, shortcut_activation=None, shortcut_str='', shortcut_stride=1):
+    SR = 0.5
+    if shortcut_activation is None:
+        shortcut_activation = prev_top
+    all_layers = shortcut_str if USE_SHORTCUT else ''
+    layers, prev_top = normalized_conv_layers((3, int(num_output * SR), shortcut_stride), level, 'squeeze', prev_top)
+    all_layers += layers
+    layers, left_out = normalized_conv_layers((1, num_output // 2, 1), level, 'expand1x1', prev_top)
+    all_layers += layers
+    layers, right_out = normalized_conv_layers((3, num_output // 2, 1), level, 'expand3x3', prev_top)
+    layers, prev_top = concat_layer('concat' + level, left_out, right_out)
+    if USE_SHORTCUT:
+        final_activation = 'res' + level
+        all_layers += eltwise_layer(final_activation, shortcut_activation, prev_top) \
             + in_place_relu(final_activation)
 
     return all_layers, prev_top if not USE_SHORTCUT else final_activation
@@ -315,11 +345,18 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
     Bottlenecks = collections.namedtuple('Bottlenecks', ['level', 'num_bottlenecks', 'sublevel_naming'])
     Bottlenecks.__new__.__defaults__ = ('letters',)
     StackedSets = type('StackedSets', (Bottlenecks,), {}) # Makes copy of Bottlenecks class
+    FireSets = type('FireSets', (Bottlenecks,), {}) # Makes copy of Bottlenecks class
 
     network_str = data_layer('ResNet-' + variant)
     network_str += conv1_layers()
     prev_top = 'pool1'
     levels = {
+        'test': (
+            FireSets(2, 3),
+            FireSets(3, 4),
+            FireSets(4, 6),
+            FireSets(5, 3),
+        ), 
         '18': (
             StackedSets(2, 2),
             StackedSets(3, 2),
@@ -359,7 +396,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
             shortcut_params = 'default'
         layers, prev_top = bottleneck_layer_set(prev_top, level, 16*(2**level), num_bottlenecks, 
             shortcut_params=shortcut_params, sublevel_naming=sublevel_naming, 
-            make_layers=(bottleneck_layers if type(layer_desc) is Bottlenecks else stacked_layers))
+            make_layers=fire_layers)
         network_str += layers
     network_str += ave_pool(7, 1, 'pool5', prev_top)
     network_str += fc_layer('fc1000', 'pool5', 'fc1000', num_output=1000)
@@ -368,7 +405,7 @@ def resnet(variant='50'): # Currently supports 50, 101, 152
 
 
 def main():
-    for net in ('18', '34', '50', '101', '152'):
+    for net in ('test',):
         with open('ResNet_{}_train_val.prototxt'.format(net), 'w') as fp:
             fp.write(resnet(net))
 
