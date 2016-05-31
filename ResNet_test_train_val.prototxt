@@ -55,10 +55,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "conv1"
+    top: "conv1"
+    name: "bn_conv1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "conv1"
+    top: "conv1"
+    name: "scale_conv1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -94,10 +112,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2a_branch1"
+    top: "res2a_branch1"
+    name: "bn2a_branch1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2a_branch1"
+    top: "res2a_branch1"
+    name: "scale2a_branch1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -114,10 +150,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2a_branchsqueeze"
+    top: "res2a_branchsqueeze"
+    name: "bn2a_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2a_branchsqueeze"
+    top: "res2a_branchsqueeze"
+    name: "scale2a_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -141,10 +195,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2a_branchexpand1x1"
+    top: "res2a_branchexpand1x1"
+    name: "bn2a_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2a_branchexpand1x1"
+    top: "res2a_branchexpand1x1"
+    name: "scale2a_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -168,10 +240,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2a_branchexpand3x3"
+    top: "res2a_branchexpand3x3"
+    name: "bn2a_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2a_branchexpand3x3"
+    top: "res2a_branchexpand3x3"
+    name: "scale2a_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -214,10 +304,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2b_branchsqueeze"
+    top: "res2b_branchsqueeze"
+    name: "bn2b_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2b_branchsqueeze"
+    top: "res2b_branchsqueeze"
+    name: "scale2b_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -241,10 +349,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2b_branchexpand1x1"
+    top: "res2b_branchexpand1x1"
+    name: "bn2b_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2b_branchexpand1x1"
+    top: "res2b_branchexpand1x1"
+    name: "scale2b_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -268,10 +394,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2b_branchexpand3x3"
+    top: "res2b_branchexpand3x3"
+    name: "bn2b_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2b_branchexpand3x3"
+    top: "res2b_branchexpand3x3"
+    name: "scale2b_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -314,10 +458,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2c_branchsqueeze"
+    top: "res2c_branchsqueeze"
+    name: "bn2c_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2c_branchsqueeze"
+    top: "res2c_branchsqueeze"
+    name: "scale2c_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -341,10 +503,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2c_branchexpand1x1"
+    top: "res2c_branchexpand1x1"
+    name: "bn2c_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2c_branchexpand1x1"
+    top: "res2c_branchexpand1x1"
+    name: "scale2c_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -368,10 +548,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res2c_branchexpand3x3"
+    top: "res2c_branchexpand3x3"
+    name: "bn2c_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res2c_branchexpand3x3"
+    top: "res2c_branchexpand3x3"
+    name: "scale2c_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -414,10 +612,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3a_branch1"
+    top: "res3a_branch1"
+    name: "bn3a_branch1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3a_branch1"
+    top: "res3a_branch1"
+    name: "scale3a_branch1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -434,10 +650,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3a_branchsqueeze"
+    top: "res3a_branchsqueeze"
+    name: "bn3a_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3a_branchsqueeze"
+    top: "res3a_branchsqueeze"
+    name: "scale3a_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -461,10 +695,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3a_branchexpand1x1"
+    top: "res3a_branchexpand1x1"
+    name: "bn3a_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3a_branchexpand1x1"
+    top: "res3a_branchexpand1x1"
+    name: "scale3a_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -488,10 +740,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3a_branchexpand3x3"
+    top: "res3a_branchexpand3x3"
+    name: "bn3a_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3a_branchexpand3x3"
+    top: "res3a_branchexpand3x3"
+    name: "scale3a_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -534,10 +804,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3b_branchsqueeze"
+    top: "res3b_branchsqueeze"
+    name: "bn3b_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3b_branchsqueeze"
+    top: "res3b_branchsqueeze"
+    name: "scale3b_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -561,10 +849,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3b_branchexpand1x1"
+    top: "res3b_branchexpand1x1"
+    name: "bn3b_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3b_branchexpand1x1"
+    top: "res3b_branchexpand1x1"
+    name: "scale3b_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -588,10 +894,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3b_branchexpand3x3"
+    top: "res3b_branchexpand3x3"
+    name: "bn3b_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3b_branchexpand3x3"
+    top: "res3b_branchexpand3x3"
+    name: "scale3b_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -634,10 +958,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3c_branchsqueeze"
+    top: "res3c_branchsqueeze"
+    name: "bn3c_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3c_branchsqueeze"
+    top: "res3c_branchsqueeze"
+    name: "scale3c_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -661,10 +1003,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3c_branchexpand1x1"
+    top: "res3c_branchexpand1x1"
+    name: "bn3c_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3c_branchexpand1x1"
+    top: "res3c_branchexpand1x1"
+    name: "scale3c_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -688,10 +1048,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3c_branchexpand3x3"
+    top: "res3c_branchexpand3x3"
+    name: "bn3c_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3c_branchexpand3x3"
+    top: "res3c_branchexpand3x3"
+    name: "scale3c_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -734,10 +1112,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3d_branchsqueeze"
+    top: "res3d_branchsqueeze"
+    name: "bn3d_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3d_branchsqueeze"
+    top: "res3d_branchsqueeze"
+    name: "scale3d_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -761,10 +1157,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3d_branchexpand1x1"
+    top: "res3d_branchexpand1x1"
+    name: "bn3d_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3d_branchexpand1x1"
+    top: "res3d_branchexpand1x1"
+    name: "scale3d_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -788,10 +1202,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res3d_branchexpand3x3"
+    top: "res3d_branchexpand3x3"
+    name: "bn3d_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res3d_branchexpand3x3"
+    top: "res3d_branchexpand3x3"
+    name: "scale3d_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -834,10 +1266,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4a_branch1"
+    top: "res4a_branch1"
+    name: "bn4a_branch1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4a_branch1"
+    top: "res4a_branch1"
+    name: "scale4a_branch1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -854,10 +1304,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4a_branchsqueeze"
+    top: "res4a_branchsqueeze"
+    name: "bn4a_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4a_branchsqueeze"
+    top: "res4a_branchsqueeze"
+    name: "scale4a_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -881,10 +1349,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4a_branchexpand1x1"
+    top: "res4a_branchexpand1x1"
+    name: "bn4a_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4a_branchexpand1x1"
+    top: "res4a_branchexpand1x1"
+    name: "scale4a_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -908,10 +1394,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4a_branchexpand3x3"
+    top: "res4a_branchexpand3x3"
+    name: "bn4a_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4a_branchexpand3x3"
+    top: "res4a_branchexpand3x3"
+    name: "scale4a_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -954,10 +1458,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4b_branchsqueeze"
+    top: "res4b_branchsqueeze"
+    name: "bn4b_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4b_branchsqueeze"
+    top: "res4b_branchsqueeze"
+    name: "scale4b_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -981,10 +1503,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4b_branchexpand1x1"
+    top: "res4b_branchexpand1x1"
+    name: "bn4b_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4b_branchexpand1x1"
+    top: "res4b_branchexpand1x1"
+    name: "scale4b_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1008,10 +1548,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4b_branchexpand3x3"
+    top: "res4b_branchexpand3x3"
+    name: "bn4b_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4b_branchexpand3x3"
+    top: "res4b_branchexpand3x3"
+    name: "scale4b_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1054,10 +1612,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4c_branchsqueeze"
+    top: "res4c_branchsqueeze"
+    name: "bn4c_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4c_branchsqueeze"
+    top: "res4c_branchsqueeze"
+    name: "scale4c_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1081,10 +1657,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4c_branchexpand1x1"
+    top: "res4c_branchexpand1x1"
+    name: "bn4c_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4c_branchexpand1x1"
+    top: "res4c_branchexpand1x1"
+    name: "scale4c_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1108,10 +1702,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4c_branchexpand3x3"
+    top: "res4c_branchexpand3x3"
+    name: "bn4c_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4c_branchexpand3x3"
+    top: "res4c_branchexpand3x3"
+    name: "scale4c_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1154,10 +1766,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4d_branchsqueeze"
+    top: "res4d_branchsqueeze"
+    name: "bn4d_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4d_branchsqueeze"
+    top: "res4d_branchsqueeze"
+    name: "scale4d_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1181,10 +1811,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4d_branchexpand1x1"
+    top: "res4d_branchexpand1x1"
+    name: "bn4d_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4d_branchexpand1x1"
+    top: "res4d_branchexpand1x1"
+    name: "scale4d_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1208,10 +1856,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4d_branchexpand3x3"
+    top: "res4d_branchexpand3x3"
+    name: "bn4d_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4d_branchexpand3x3"
+    top: "res4d_branchexpand3x3"
+    name: "scale4d_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1254,10 +1920,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4e_branchsqueeze"
+    top: "res4e_branchsqueeze"
+    name: "bn4e_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4e_branchsqueeze"
+    top: "res4e_branchsqueeze"
+    name: "scale4e_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1281,10 +1965,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4e_branchexpand1x1"
+    top: "res4e_branchexpand1x1"
+    name: "bn4e_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4e_branchexpand1x1"
+    top: "res4e_branchexpand1x1"
+    name: "scale4e_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1308,10 +2010,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4e_branchexpand3x3"
+    top: "res4e_branchexpand3x3"
+    name: "bn4e_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4e_branchexpand3x3"
+    top: "res4e_branchexpand3x3"
+    name: "scale4e_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1354,10 +2074,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4f_branchsqueeze"
+    top: "res4f_branchsqueeze"
+    name: "bn4f_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4f_branchsqueeze"
+    top: "res4f_branchsqueeze"
+    name: "scale4f_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1381,10 +2119,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4f_branchexpand1x1"
+    top: "res4f_branchexpand1x1"
+    name: "bn4f_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4f_branchexpand1x1"
+    top: "res4f_branchexpand1x1"
+    name: "scale4f_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1408,10 +2164,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res4f_branchexpand3x3"
+    top: "res4f_branchexpand3x3"
+    name: "bn4f_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res4f_branchexpand3x3"
+    top: "res4f_branchexpand3x3"
+    name: "scale4f_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1454,10 +2228,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5a_branch1"
+    top: "res5a_branch1"
+    name: "bn5a_branch1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5a_branch1"
+    top: "res5a_branch1"
+    name: "scale5a_branch1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1474,10 +2266,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5a_branchsqueeze"
+    top: "res5a_branchsqueeze"
+    name: "bn5a_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5a_branchsqueeze"
+    top: "res5a_branchsqueeze"
+    name: "scale5a_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1501,10 +2311,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5a_branchexpand1x1"
+    top: "res5a_branchexpand1x1"
+    name: "bn5a_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5a_branchexpand1x1"
+    top: "res5a_branchexpand1x1"
+    name: "scale5a_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1528,10 +2356,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5a_branchexpand3x3"
+    top: "res5a_branchexpand3x3"
+    name: "bn5a_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5a_branchexpand3x3"
+    top: "res5a_branchexpand3x3"
+    name: "scale5a_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1574,10 +2420,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5b_branchsqueeze"
+    top: "res5b_branchsqueeze"
+    name: "bn5b_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5b_branchsqueeze"
+    top: "res5b_branchsqueeze"
+    name: "scale5b_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1601,10 +2465,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5b_branchexpand1x1"
+    top: "res5b_branchexpand1x1"
+    name: "bn5b_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5b_branchexpand1x1"
+    top: "res5b_branchexpand1x1"
+    name: "scale5b_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1628,10 +2510,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5b_branchexpand3x3"
+    top: "res5b_branchexpand3x3"
+    name: "bn5b_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5b_branchexpand3x3"
+    top: "res5b_branchexpand3x3"
+    name: "scale5b_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1674,10 +2574,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5c_branchsqueeze"
+    top: "res5c_branchsqueeze"
+    name: "bn5c_branchsqueeze"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5c_branchsqueeze"
+    top: "res5c_branchsqueeze"
+    name: "scale5c_branchsqueeze"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1701,10 +2619,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5c_branchexpand1x1"
+    top: "res5c_branchexpand1x1"
+    name: "bn5c_branchexpand1x1"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5c_branchexpand1x1"
+    top: "res5c_branchexpand1x1"
+    name: "scale5c_branchexpand1x1"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
@@ -1728,10 +2664,28 @@ layer {
         weight_filler {
             type: "msra"
         }
-        bias_filler {
-            type: "constant"
-            value: 0
-        }
+        bias_term: false
+
+    }
+}
+
+layer {
+    bottom: "res5c_branchexpand3x3"
+    top: "res5c_branchexpand3x3"
+    name: "bn5c_branchexpand3x3"
+    type: "BatchNorm"
+    batch_norm_param {
+        use_global_stats: false
+    }
+}
+
+layer {
+    bottom: "res5c_branchexpand3x3"
+    top: "res5c_branchexpand3x3"
+    name: "scale5c_branchexpand3x3"
+    type: "Scale"
+    scale_param {
+        bias_term: true
     }
 }
 
